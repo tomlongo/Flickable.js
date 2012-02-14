@@ -15,29 +15,11 @@ http://labs.kojo.com.au/flickable-zepto-plugin/
 
 # Demos
 
+BYO touchscreen. 
+
 * [Page Flipper](http://labs.kojo.com.au/demos/flickable/demo1.html): This demo allows you to swipe between 'cards' within a set area. Tap a card to flip it around.
 * [Thumbnail Slider](http://labs.kojo.com.au/demos/flickable/demo2.html): This is similar to the way the App Store allows you to flip through app screenshots, but it can also be used to allow users to slide through navigation items that don't fit within a single page.
 * [Vertical Jigsaw](http://labs.kojo.com.au/demos/flickable/demo3.html): Swipe up or down on the three segments to match up the images.
-
-# How it works
-
-Flickable is designed to be flexible and work around your markup. It doesn't generate any wrapper elements and doesn't need a special CSS file to be included.
-
-Say you had this HTML setup:
-
-![Diagram 1](http://labs.kojo.com.au/wp-content/uploads/2012/02/diagram1.png)
-
-My intension is to show just one of those green boxes (``<section>``) on the screen at a time, and allow the user to swipe between them. In this case I have placed the ``#flickable_wrapper`` element that contains the boxes inside a #wrapper element which has an overflow: hidden applied to it so that there is only room for 1 box at a time.
-
-Now I can apply Flickable to it like so:
-
-``` js
-$('#flickable_wrapper').flickable({segments:3});
-```
-
-Flickable will automatically calculate the width of each segment by dividing the ``#flickable_wrapper`` width by the number of segments specified (in this case ``3``). That's it! Now I can move ``#flickable_wrapper`` around with my finger and Flickable will snap to the nearest segment once I release.
-
-![Diagram 2](http://labs.kojo.com.au/wp-content/uploads/2012/02/diagram21.png)
 
 
 # Installation
