@@ -1,0 +1,147 @@
+<!doctype html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js"> <!--<![endif]-->
+
+<head>
+	
+	<meta charset="utf-8">
+
+	<title>Flickable.js / Demo 2</title>
+	
+	<!-- Mobile viewport optimization -->
+	<meta name="viewport" content="width=900" />
+
+
+	<!-- Shared Scripts -->
+	<script src="../libs/modernizr-2.0.6.min.js"></script>
+	<script src="../libs/zepto.min.js"></script>
+	<script src="../src/zepto.flickable.js"></script>
+	<script src="js/demo.js"></script>
+
+	<!-- Demo 1 Scripts -->
+	<script type="text/javascript">
+	
+		$(document).ready(function() 
+		{
+	
+			$('#demo2').flickable({segments:4});
+			$('#demo2 a').tap(function(){ alert('You just tapped "'+$(this).text()+'"'); });
+			
+				if(!Modernizr.touch) {
+				
+					// If you're on a desktop, show next/prev links for mouse navigation
+					$('#demo2-intro').append('<p><a class="prev">Prev</a> | <a class="next">Next</a></p>');
+					$('.next').click(function() { $('#demo2').flickable('scrollNext');});
+					$('.prev').click(function() { $('#demo2').flickable('scrollPrev');});
+					
+					// Add mouse support
+					$('#demo2 a').click(function(){ alert('You just clicked "'+$(this).text()+'"'); });
+				}
+			
+		});
+	
+	</script>
+
+	<!-- Shared Styles -->
+	<link rel="stylesheet" href="css/demo.css">
+
+
+	<!-- Demo 1 Styles -->
+
+	<style type="text/css">
+	
+  	#demo2-wrapper
+	{
+		width: 800px;
+		height: 200px;
+		margin: 0 auto;
+		background: #DDDDDD;
+		overflow: hidden;
+	}
+	
+	#demo2
+	{
+		width: 3200px;
+		height: 200px;
+	}
+	
+	#demo2 li
+	{
+		display: block;
+		float: left;
+		width: 200px;
+		height: 200px;
+	}
+	
+	#demo2 li a
+	{
+		color: blue;
+		display: block;
+		height: 160px;
+		line-height: 160px;
+		text-align: center;
+		margin: 20px;
+		background: #fff;
+		-webkit-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, .2);
+		-moz-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, .2);
+		box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, .2);
+	}
+	
+	</style>
+
+
+	
+	
+
+  
+</head>
+<body>
+
+	
+<div id="wrapper">
+	
+	<section>
+
+
+		<div class="demo-intro" id="demo2-intro">
+			<h1>Demo 2: Thumbnail Slider</h1>
+			<p>This is similar to the way the App Store allows you to flip through app screenshots, but it can also be used to allow users to slide through navigation items that don’t fit within a single page. </p>
+		</div>
+		
+		
+		<!-- Demo 2 HTML -->
+
+		<div id="demo2-wrapper" class="clearfix">
+	
+			<ul id="demo2">
+
+				<li><a>Tap Me 1</a></li>
+				<li><a>Tap Me 2</a></li>
+				<li><a>Tap Me 3</a></li>
+				<li><a>Tap Me 4</a></li>
+	
+				<li><a>Tap Me 5</a></li>
+				<li><a>Tap Me 6</a></li>
+				<li><a>Tap Me 7</a></li>
+				<li><a>Tap Me 8</a></li>
+				
+				<li><a>Tap Me 9</a></li>
+				<li><a>Tap Me 10</a></li>
+				<li><a>Tap Me 11</a></li>
+				<li><a>Tap Me 12</a></li>
+				
+				<li><a>Tap Me 13</a></li>
+				<li><a>Tap Me 14</a></li>
+				<li><a>Tap Me 15</a></li>
+				<li><a>Tap Me 16</a></li>
+
+			</ul>
+			
+		</div>
+	
+	</section>
+
+</div>
+		
+</body>
+</html>

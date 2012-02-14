@@ -1,0 +1,113 @@
+<!doctype html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js"> <!--<![endif]-->
+
+<head>
+	
+	<meta charset="utf-8">
+
+	<title>Flickable.js / Demo 3</title>
+	
+	<!-- Mobile viewport optimization -->
+	<meta name="viewport" content="width=640">
+	
+
+	<!-- Shared Scripts -->
+	<script src="../libs/modernizr-2.0.6.min.js"></script>
+	<script src="../libs/zepto.min.js"></script>
+	<script src="../src/zepto.flickable.js"></script>
+	<script src="js/demo.js"></script>
+
+	<!-- Demo 1 Scripts -->
+	<script type="text/javascript">
+	
+		$(document).ready(function() 
+		{
+	
+			$('#demo3 img').flickable({segments:3});
+			
+				if(!Modernizr.touch) {
+				
+					// If you're on a desktop, show next/prev links for mouse navigation
+					// (I know, this code is bulkier than it needs to be! Gimme a break, it's just a demo!)
+					$('#demo3-intro').append('<p><a class="prev1">Col 1 Up</a> | <a class="next1">Col 1 Down</a></p><p><a class="prev2">Col 2 Up</a> | <a class="next2">Col 2 Down</a></p><p><a class="prev3">Col 3 Up</a> | <a class="next3">Col 3 Down</a></p>');
+					$('.next1').click(function() { $('#col1').flickable('scrollNext');});
+					$('.prev1').click(function() { $('#col1').flickable('scrollPrev');});
+					
+					$('.next2').click(function() { $('#col2').flickable('scrollNext');});
+					$('.prev2').click(function() { $('#col2').flickable('scrollPrev');});
+					
+					$('.next3').click(function() { $('#col3').flickable('scrollNext');});
+					$('.prev3').click(function() { $('#col3').flickable('scrollPrev');});
+					
+				}
+			
+		});
+	
+	</script>
+
+	<!-- Shared Styles -->
+	<link rel="stylesheet" href="css/demo.css">
+
+
+	<!-- Demo 3 Styles -->
+	<style type="text/css">
+	
+	#demo3-wrapper
+	{
+		width: 453px;
+		overflow: hidden;
+		margin: 0 auto;
+	}
+  	
+	#demo3 .col
+  	{
+  		position: relative;
+  		display: block;
+  		float: left;
+  		margin-right: 1px;
+  		width: 150px;
+  		height: 300px;
+  		overflow: hidden;
+  	}
+	
+	</style>
+
+
+	
+	
+
+  
+</head>
+<body>
+
+	
+<div id="wrapper">
+	
+	<section>
+
+
+		<div class="demo-intro" id="demo3-intro">
+			<h1>Demo 3: Vertical Jigsaw</h1>
+			<p>Swipe up or down on the three segments to match up the images. </p>
+		</div>
+		
+		
+		<!-- Demo 3 HTML -->
+
+		<div id="demo3-wrapper" class="clearfix">
+		
+			<ul id="demo3">
+				<li class="col"><img id="col1" src="img/col1.jpg" alt="Column 1" width="150" height="900" /></li>
+				<li class="col"><img id="col2" src="img/col2.jpg" alt="Column 2" width="150" height="900" /></li>
+				<li class="col"><img id="col3" src="img/col3.jpg" alt="Column 3" width="150" height="900" /></li>
+			</ul>
+			
+		</div>	
+	
+	</section>
+
+</div>
+		
+</body>
+</html>

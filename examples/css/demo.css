@@ -1,0 +1,91 @@
+	/*
+	|--------------------------------------------------------------------------
+	| Reset CSS
+	|--------------------------------------------------------------------------
+	*/
+
+	body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
+		margin:0;
+		padding:0;
+	}
+	table {
+		border-collapse:collapse;
+		border-spacing:0;
+	}
+	fieldset,img { 
+		border:0;
+	}
+	address,caption,cite,code,dfn,em,strong,th,var {
+		font-style:normal;
+		font-weight:normal;
+	}
+	ol,ul {
+		list-style:none;
+	}
+	caption,th {
+		text-align:left;
+	}
+	h1,h2,h3,h4,h5,h6 {
+		font-size:100%;
+		font-weight:normal;
+	}
+	q:before,q:after {
+		content:'';
+	}
+	abbr,acronym { border:0;
+	}
+	a {outline: none;}
+	
+	/* clearfix */
+	.clearfix:after {
+		visibility: hidden;
+		display: block;
+		font-size: 0;
+		content: " ";
+		clear: both;
+		height: 0;
+		}
+	* html .clearfix             { zoom: 1; } /* IE6 */
+	*:first-child+html .clearfix { zoom: 1; } /* IE7 */
+
+
+
+	/*
+	|--------------------------------------------------------------------------
+	| Shared Demo Styles
+	|--------------------------------------------------------------------------
+	*/
+
+	html, body {
+		background: #2B2B2B;
+		color: #fff;
+		font-family: 'Lucida Grande', Helvetica, Arial, sans-serif;
+	}
+
+	#wrapper {
+		margin: 0 20px;
+	}
+	
+	.demo-intro {
+		margin: 20px 0;
+		font-size: 14px;
+	}
+	
+	.demo-intro h1 {
+		font-weight: bold;
+		font-size: 16px;
+		margin: 0 0 10px 0;
+	}
+	
+	a { color: #ADEAFE; text-decoration: underline; cursor: pointer; }
+	
+	#warning {
+		width: 100%;
+		background: #C70B0F;
+	}
+	
+	#warning p {
+		padding: 10px 20px;
+		text-align: center;
+		font-size: 14px;
+	}
