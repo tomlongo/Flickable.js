@@ -8,10 +8,36 @@ Primary target platforms are:
 * Android 2.2+
 
 
-# Detailed Info, Screenshots and Live Demos
+# Detailed Info and Pretty Diagrams
 
 I've written a post with a lot of info here: 
 http://labs.kojo.com.au/flickable-zepto-plugin/
+
+# Demos
+
+* [Page Flipper](http://labs.kojo.com.au/demos/flickable/demo1.html): This demo allows you to swipe between 'cards' within a set area. Tap a card to flip it around.
+* [Thumbnail Slider](http://labs.kojo.com.au/demos/flickable/demo2.html): This is similar to the way the App Store allows you to flip through app screenshots, but it can also be used to allow users to slide through navigation items that don't fit within a single page.
+* [Vertical Jigsaw](http://labs.kojo.com.au/demos/flickable/demo3.html): Swipe up or down on the three segments to match up the images.
+
+# How it works
+
+Flickable is designed to be flexible and work around your markup. It doesn't generate any wrapper elements and doesn't need a special CSS file to be included.
+
+Say you had this HTML setup:
+
+![Diagram 1](http://labs.kojo.com.au/wp-content/uploads/2012/02/diagram1.png)
+
+My intension is to show just one of those green boxes (``<section>``) on the screen at a time, and allow the user to swipe between them. In this case I have placed the ``#flickable_wrapper`` element that contains the boxes inside a #wrapper element which has an overflow: hidden applied to it so that there is only room for 1 box at a time.
+
+Now I can apply Flickable to it like so:
+
+``` js
+$('#flickable_wrapper').flickable({segments:3});
+```
+
+Flickable will automatically calculate the width of each segment by dividing the ``#flickable_wrapper`` width by the number of segments specified (in this case ``3``). That's it! Now I can move ``#flickable_wrapper`` around with my finger and Flickable will snap to the nearest segment once I release.
+
+![Diagram 2](http://labs.kojo.com.au/wp-content/uploads/2012/02/diagram21.png)
 
 
 # Installation
@@ -44,4 +70,218 @@ JavaScript:
 
 ``` js
 $('#flickable-element').flickable({segments:3});
+```
+
+
+# Documentation
+
+## Event Callbacks
+
+### onCreate
+
+Triggered when Flickable object is created.
+
+``` js
+$('#thing').flickable({onCreate: function(flickableObjects) { /* do stuff */ } });
+```
+
+### onStart
+
+Triggered when a touch event begins.
+
+``` js
+$('#thing').flickable({onStart: function(eventData) { /* do stuff */ } });
+```
+
+### onMove
+
+Triggered when the element is moved via a gesture in any direction.
+
+``` js
+$('#thing').flickable({onMove: function(eventData) { /* do stuff */ } });
+```
+
+### onScroll
+
+Triggered when element snaps to the nearest segment in any direction.
+
+``` js
+$('#thing').flickable({onScroll: function(eventData) { /* do stuff */ } });
+```
+
+### onScrollPrev
+
+Triggered when element snaps to the previous segment.
+
+``` js
+$('#thing').flickable({onScrollPrev: function(eventData) { /* do stuff */ } });
+```
+
+### onScrollNext
+
+Triggered when element snaps to the next segment.
+
+``` js
+$('#thing').flickable({onScrollNext: function(eventData) { /* do stuff */ } });
+```
+
+### onFlick
+
+Triggered when element user flicks in a valid direction.
+
+``` js
+$('#thing').flickable({onFlick: function(eventData) { /* do stuff */ } });
+```
+
+### onFlickLeft
+
+Triggered when element user flicks from right to left.
+
+``` js
+$('#thing').flickable({onFlickLeft: function(eventData) { /* do stuff */ } });
+```
+
+### onFlickRight
+
+Triggered when element user flicks from left to right.
+
+``` js
+$('#thing').flickable({onFlickRight: function(eventData) { /* do stuff */ } });
+```
+
+### onFlickUp
+
+Triggered when element user flicks from bottom to top.
+
+``` js
+$('#thing').flickable({onFlickUp: function(eventData) { /* do stuff */ } });
+```
+
+### onFlickDown
+
+Triggered when element user flicks from up to down.
+
+``` js
+$('#thing').flickable({onFlickDown: function(eventData) { /* do stuff */ } });
+```
+
+### onEnd
+
+Triggered when the user lifts their finger off the screen, ending the touch event.
+
+``` js
+$('#thing').flickable({onEnd: function(eventData) { /* do stuff */ } });
+```
+
+## Event Data Object
+
+Most events also include the event data object, which is structured like so:
+
+``` js
+eventData = {
+
+   // Starting touchpoint [x pos, y pos, timestamp]
+   start: {x:0, y:0, time: 0},
+
+   delta: {
+
+      // Previous touchpoint
+      prevPos: {x:0, y:0},
+
+      // Distance relative to original touchpoint
+      dist: {x:0, y:0},
+
+      // Direction of touch
+      // [-1 left/up, +1 right/down, 0 no movement]
+      dir: {x:0, y:0}
+
+   },
+
+   end: {
+
+      // Duration of touch
+      duration: 0,
+
+      // Speed of movement along x and y axis
+      speed: {x:0, y:0},
+
+      // +1/-1 if the touch was deemed to
+      // be a flick left/right up/down
+      flick: {x:0, y:0}
+   }
+
+}
+```
+
+## Options
+
+### segments
+
+Type: Number; Default: 5
+
+Number of segments in which to divide the target element.
+
+``` js
+$('#thing').flickable({segments: 3});
+```
+
+### flickThreshold
+
+Type: Float; Default: 0.7
+
+Threshold in which a simple "touch and move" gesture becomes a "flick".
+
+If you're targeting Android, you may need to lower this to make it more sensitive because of Android's lower frame rates for translate3d animations. 
+
+``` js
+$('#thing').flickable({flickThreshold: 0.5});
+```
+
+### flickDirection
+
+Type: 'x' or 'y'; Default: 'auto'
+
+Direction in which to divide the element into sections, and in which the user can flick.
+
+If not specified, the direction will be automatically calculated based on which side of the target element is the longest.
+
+``` js
+$('#thing').flickable({flickDirection: 'x'});
+```
+
+### preventDefault
+
+Type: Boolean; Default: true
+
+Whether or not to cancel default actions on the target element. Note that if this is set to false, the page will scroll with the gesture.
+
+``` js
+$('#thing').flickable({preventDefault: false});
+```
+
+## Methods
+
+### segment
+
+Gets or sets the current segment. Note segments start at 0.
+
+``` js
+$('#thing').flickable('segment'); // gets current segment
+$('#thing').flickable('segment', 5); // sets segment to 5
+```
+
+### scrollNext
+
+Scroll to next segment.
+
+``` js
+$('#thing').flickable('scrollNext');
+```
+
+### scrollPrev
+
+Scroll to previous segment.
+
+``` js
+$('#thing').flickable('scrollPrev');
 ```
