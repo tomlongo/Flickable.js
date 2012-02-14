@@ -40,7 +40,7 @@ HTML:
 </div>
 ```
 
-JavaScirpt: 
+JavaScript: 
 
 ``` js
 $('#flickable-element').flickable({segments:3});
