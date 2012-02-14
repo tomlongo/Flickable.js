@@ -26,11 +26,21 @@
 	
 			$('#demo1').flickable({segments:5});
 			
+			$('.front, .back').tap(function() {
+				var el = $(this).parent();
+				el.toggleClass('flipped')
+			});
+			
 				if(!Modernizr.touch) {
 					//If you're on a desktop, show next/prev links for mouse navigation
 					$('#demo1-intro').append('<p><a class="prev">Prev</a> | <a class="next">Next</a></p>');
 					$('.next').click(function() { $('#demo1').flickable('scrollNext');});
 					$('.prev').click(function() { $('#demo1').flickable('scrollPrev');});
+					
+					$('.front, .back').click(function() {
+						var el = $(this).parent();
+						el.toggleClass('flipped')
+					});
 				}
 			
 		});
@@ -53,30 +63,70 @@
 		background: #DDDDDD;
 	
 	}
-
-	#demo1 {
 	
+	#demo1 {
+		height: 480px;
 		width: 1600px;
-		height: 460px;
+		-webkit-perspective: 1000;
+	}
+		
+	.card, .front, .back {
+		border-radius: 10px;
+		color: #fff;
+		float: left;
+		height: 440px;
+		line-height: 440px;
+		margin: 10px;
+		position: relative;
+		padding: 0;
+		text-align: center;
+		width: 300px;
 	}
 	
+	.front, .back {
+		background: #fff;
+		position: absolute;
+		top: 0;
+		left: 0;
+		margin: 0;
+		-webkit-backface-visibility: hidden;
+	}
+	
+	.back {
+		color: #fff;
+		-webkit-transform: rotateY(180deg) translate3d(0,0,0);
+		background: url(img/fabric.png);
+	}
 	
 	.card {
-		width: 260px;
-		height: 400px;
-		background: #fff;
-		float: left;
-		margin: 10px;
-		border-radius: 10px;
-		padding: 20px;
+		-webkit-transform-style: preserve-3d;
+		-webkit-animation-name: default;
+		-webkit-animation-duration: 0.5s;
+		-webkit-animation-timing-function: ease-in-out;
+		-webkit-animation-iteration-count: 1;
+		-webkit-animation-fill-mode: forwards;
+	}
+	
+	.card.flipped {
+		-webkit-animation-name: cardflipped;
 	}
 	
 
-	#card1 { color: #000; }
-	#card2 { background: #B00004; }
-	#card3 { background: #1C8B00; }
-	#card4 { background: #FF9500; }
-	#card5 { background: #3A8AD5; }
+	#card1 .front { color: #000; }	
+	#card2 .front { background: #B00004; }
+	#card3 .front { background: #1C8B00; }
+	#card4 .front { background: #FF9500; }
+	#card5 .front { background: #3A8AD5; }
+	
+	@-webkit-keyframes default { 
+		from 	{ -webkit-transform: rotateY(180deg) translate3d(0,0,0); }
+		to 		{ -webkit-transform: rotateY(0deg) translate3d(0,0,0); }
+	}
+
+	@-webkit-keyframes cardflipped { 
+		from 	{ -webkit-transform: rotateY(0deg) translate3d(0,0,0); }
+		to 		{ -webkit-transform: rotateY(180deg) translate3d(0,0,0); }
+	}
 	
 	</style>
 
@@ -95,7 +145,7 @@
 
 		<div class="demo-intro" id="demo1-intro">
 			<h1>Demo 1: Flicking between screens</h1>
-			<p>This demo allows you to swipe between 'cards' within a set area.</p>
+			<p>This demo allows you to swipe between 'cards' within a set area. Tap a card to flip it around.</p>
 		</div>
 		
 		
@@ -107,31 +157,36 @@
 			
 				<!-- Card 1 -->
 				<div class="card" id="card1">
-					<p>Card 1 of 5</p>
+					<div class="front">Tap to flip</div>
+					<div class="back">Tap to flip</div>
 				</div>
 				
 				
 				<!-- Card 2 -->
 				<div class="card" id="card2">
-					<p>Card 2 of 5</p>
+					<div class="front">Tap to flip</div>
+					<div class="back">Tap to flip</div>
 				</div>
 				
 				
 				<!-- Card 3 -->
 				<div class="card" id="card3">
-					<p>Card 3 of 5</p>
+					<div class="front">Tap to flip</div>
+					<div class="back">Tap to flip</div>
 				</div>
 				
 				
 				<!-- Card 4 -->
 				<div class="card" id="card4">
-					<p>Card 4 of 5</p>
+					<div class="front">Tap to flip</div>
+					<div class="back">Tap to flip</div>
 				</div>
 				
 				
 				<!-- Card 5 -->
 				<div class="card" id="card5">
-					<p>Card 5 of 5</p>
+					<div class="front">Tap to flip</div>
+					<div class="back">Tap to flip</div>
 				</div>
 			
 			</div>
