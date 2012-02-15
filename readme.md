@@ -88,7 +88,7 @@ $('#thing').flickable({onMove: function(eventData) { /* do stuff */ } });
 Triggered when element snaps to the nearest segment in any direction.
 
 ``` js
-$('#thing').flickable({onScroll: function(eventData) { /* do stuff */ } });
+$('#thing').flickable({onScroll: function(eventData, segment) { /* do stuff */ } });
 ```
 
 ### onScrollPrev
@@ -96,7 +96,7 @@ $('#thing').flickable({onScroll: function(eventData) { /* do stuff */ } });
 Triggered when element snaps to the previous segment.
 
 ``` js
-$('#thing').flickable({onScrollPrev: function(eventData) { /* do stuff */ } });
+$('#thing').flickable({onScrollPrev: function(eventData, segment) { /* do stuff */ } });
 ```
 
 ### onScrollNext
@@ -104,7 +104,7 @@ $('#thing').flickable({onScrollPrev: function(eventData) { /* do stuff */ } });
 Triggered when element snaps to the next segment.
 
 ``` js
-$('#thing').flickable({onScrollNext: function(eventData) { /* do stuff */ } });
+$('#thing').flickable({onScrollNext: function(eventData, segment) { /* do stuff */ } });
 ```
 
 ### onFlick
@@ -112,7 +112,7 @@ $('#thing').flickable({onScrollNext: function(eventData) { /* do stuff */ } });
 Triggered when element user flicks in a valid direction.
 
 ``` js
-$('#thing').flickable({onFlick: function(eventData) { /* do stuff */ } });
+$('#thing').flickable({onFlick: function(eventData, segment) { /* do stuff */ } });
 ```
 
 ### onFlickLeft
@@ -120,7 +120,7 @@ $('#thing').flickable({onFlick: function(eventData) { /* do stuff */ } });
 Triggered when element user flicks from right to left.
 
 ``` js
-$('#thing').flickable({onFlickLeft: function(eventData) { /* do stuff */ } });
+$('#thing').flickable({onFlickLeft: function(eventData, segment) { /* do stuff */ } });
 ```
 
 ### onFlickRight
@@ -128,7 +128,7 @@ $('#thing').flickable({onFlickLeft: function(eventData) { /* do stuff */ } });
 Triggered when element user flicks from left to right.
 
 ``` js
-$('#thing').flickable({onFlickRight: function(eventData) { /* do stuff */ } });
+$('#thing').flickable({onFlickRight: function(eventData, segment) { /* do stuff */ } });
 ```
 
 ### onFlickUp
@@ -136,7 +136,7 @@ $('#thing').flickable({onFlickRight: function(eventData) { /* do stuff */ } });
 Triggered when element user flicks from bottom to top.
 
 ``` js
-$('#thing').flickable({onFlickUp: function(eventData) { /* do stuff */ } });
+$('#thing').flickable({onFlickUp: function(eventData, segment) { /* do stuff */ } });
 ```
 
 ### onFlickDown
@@ -144,7 +144,7 @@ $('#thing').flickable({onFlickUp: function(eventData) { /* do stuff */ } });
 Triggered when element user flicks from up to down.
 
 ``` js
-$('#thing').flickable({onFlickDown: function(eventData) { /* do stuff */ } });
+$('#thing').flickable({onFlickDown: function(eventData, segment) { /* do stuff */ } });
 ```
 
 ### onEnd
@@ -152,7 +152,7 @@ $('#thing').flickable({onFlickDown: function(eventData) { /* do stuff */ } });
 Triggered when the user lifts their finger off the screen, ending the touch event.
 
 ``` js
-$('#thing').flickable({onEnd: function(eventData) { /* do stuff */ } });
+$('#thing').flickable({onEnd: function(eventData, segment) { /* do stuff */ } });
 ```
 
 ## Event Data Object
@@ -230,6 +230,29 @@ If not specified, the direction will be automatically calculated based on which 
 ``` js
 $('#thing').flickable({flickDirection: 'x'});
 ```
+
+
+
+### snapSpeed
+
+Type: Float; Default: 0.3
+
+Speed in which the element will snap to the nearest segment when released (note this is separate from flickSnapSpeed). 
+
+``` js
+$('#thing').flickable({snapSpeed: 1});
+```
+
+### flickSnapSpeed
+
+Type: Float; Default: 0.3
+
+Speed in which the element will snap to the nearest segment when flicked. 
+
+``` js
+$('#thing').flickable({flickSnapSpeed: 1});
+```
+
 
 ### preventDefault
 

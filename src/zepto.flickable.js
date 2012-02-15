@@ -4,8 +4,8 @@
  *
  * Licensed under the Whatever License. Use it for whatever you want!
  * 
- * @author tom@kojo.com.au
- * @version 1.0
+ * @author thetomlongo@gmail.com
+ * @version 1.0.2
  * 
  * @requires 
  * Zepto JavaScript Library
@@ -37,6 +37,7 @@
 		browserSucks 		= false, 			// Does the browser support CSS3 transitions? (this is auto detcted upon initialisation)
 		flickableObjects 	= 0, 	 			// Number of flickable objects that have been initialised
 		flickThreshold 		= 0.7, 	 			// Threshold in which a "touch and move" becomes a "flick" (the higher the number, the faster the swipe)
+		minTravelDistance	= 5, 				// This is the minimum distance in px the user's finger must travel for it to be considered a valid flick
 		debug 				= false; 			// If true, a floating div will display event data on screen during touches
 
 
@@ -47,6 +48,8 @@
 		var settings = $.extend( {
 		  enableDebugger: false, 
 		  segments		: 5, 
+		  snapSpeed		: 0.3, 
+		  flickSnapSpeed: 0.3, 
 		  flickThreshold: false, 
 		  segmentPx		: 'auto',
 		  flickDirection: 'auto',
@@ -57,6 +60,9 @@
 		  onFlickRight	: false,  
 		  onFlickUp		: false,  
 		  onFlickDown	: false,  
+		  onScroll		: false,  
+		  onScrollNext	: false,  
+		  onScrollPrev	: false,  
 		  onMove		: false,  
 		  onStart		: false, 
 		  onEnd			: false
@@ -74,6 +80,8 @@
 				
 						  el.data('isAlive', true)
 						  .data('pos', 0)
+						  .data('snapSpeed', parseFloat(settings.snapSpeed))
+						  .data('flickSnapSpeed', parseFloat(settings.flickSnapSpeed))
 						  .data('segment', 0)
 						  .data('segments', segments)
 						  .data('flickDirection', flickDirection)
@@ -98,11 +106,11 @@
 							},
 
 							onScrollPrev: function() {
-								$(this).flickable('scrollPrev', settings.onScrollPrev);
+								$(this).flickable('prevSegment', settings.onScrollPrev);
 							},
 							
 							onScrollNext: function() {
-								$(this).flickable('scrollNext', settings.onScrollNext);
+								$(this).flickable('nextSegment', settings.onScrollNext);
 							},
 							
 							onFlick: function() {
@@ -227,12 +235,15 @@
 				} else if(seg < 0) {
 					seg = 0;
 				}
-								
-				el.data('segment', seg);
-			
+				
+				if(seg !== segment) {
+					el.data('segment', seg).trigger('onScroll');
+				} else {
+					el.flickable('scrollToSegment');
+				}
+
 			} 
 			
-			el.trigger('onScroll');
 			return parseInt(el.data('segment'));
 		
 		}, 
@@ -273,8 +284,20 @@
 		}, 
 		
 		
+	scrollNext : function () {
+
+			$(this).trigger('onScrollNext');
+			
+		}, 
 		
-	scrollNext : function (callback) {
+	scrollPrev : function () {
+
+			$(this).trigger('onScrollPrev');
+			
+		}, 
+		
+		
+	nextSegment : function (callback) {
 
 		_logEvent('Next segment');
 
@@ -284,13 +307,13 @@
 		el.flickable('segment', segment);
 
 			if (typeof callback == 'function') { 
-			callback.call(this, eventData); 
-			}
+			callback.call(this, eventData, segment); 
+			} 
 
 		}, 
 		
 		
-	scrollPrev : function (callback) {
+	prevSegment : function (callback) {
 
 		_logEvent('Previous segment');
 
@@ -300,7 +323,7 @@
 		el.flickable('segment', segment);
 
 			if (typeof callback == 'function') { 
-			callback.call(this, eventData); 
+			callback.call(this, eventData, segment); 
 			}
 
 		}, 
@@ -348,11 +371,13 @@
 
 		_logEvent('Flicked left');
 
-		var el = $(this);		
+		var el 		= $(this), 
+			segment = parseInt(el.data('segment'));
+	
 		el.trigger('onScrollNext');
 
 			if (typeof callback == 'function') { 
-			callback.call(this, eventData); 
+			callback.call(this, eventData, segment); 
 			}
 
 		}, 
@@ -362,11 +387,13 @@
 
 		_logEvent('Flicked right');
 		
-		var el = $(this);		
+		var el = $(this), 
+			segment = parseInt(el.data('segment'));
+			
 		el.trigger('onScrollPrev');
 
 			if (typeof callback == 'function') { 
-			callback.call(this, eventData); 
+			callback.call(this, eventData, segment); 
 			}
 
 		}, 
@@ -377,11 +404,13 @@
 
 		_logEvent('Flicked up');
 		
-		var el = $(this);		
+		var el 		= $(this), 
+			segment = parseInt(el.data('segment'));
+			
 		el.trigger('onScrollNext');
 
 			if (typeof callback == 'function') { 
-			callback.call(this, eventData); 
+			callback.call(this, eventData, segment); 
 			}
 
 		}, 
@@ -391,11 +420,13 @@
 
 		_logEvent('Flicked down');
 		
-		var el = $(this);		
+		var el 		= $(this), 
+			segment = parseInt(el.data('segment'));
+			
 		el.trigger('onScrollPrev');
 
 			if (typeof callback == 'function') { 
-			callback.call(this, eventData); 
+			callback.call(this, eventData, segment); 
 			}
 
 		}, 
@@ -403,17 +434,20 @@
 		
 	scrollToSegment : function (callback) {
 
-		var el 			 = $(this), style, 
-			d 	 		 = el.data('flickDirection'), 
-			segments 	 = parseInt(el.data('segments')), 
-			segment 	 = parseInt(el.data('segment')), 
-			segmentPx 	 = parseInt(el.data('segmentPx')), 
-			pos 		 = -(segmentPx * segment),
-			easing		 = 'ease-out';
+		var el 			  = $(this), style, 
+			d 	 		  = el.data('flickDirection'), 
+			snapSpeed	  = parseFloat(el.data('snapSpeed')), 
+			flickSnapSpeed= parseFloat(el.data('flickSnapSpeed')), 
+			segments 	  = parseInt(el.data('segments')), 
+			segment 	  = parseInt(el.data('segment')), 
+			segmentPx 	  = parseInt(el.data('segmentPx')), 
+			pos 		  = -(segmentPx * segment),
+			easing		  = 'ease-out';
 
 		_logEvent('Sliding to segment '+segment);
 
 			if(eventData.end.flick.x || eventData.end.flick.y) {
+				snapSpeed = flickSnapSpeed;
 				easing = 'cubic-bezier(0, .70, .35, 1)';
 			}
 			
@@ -423,18 +457,18 @@
 			  
 			  if(browserSucks) { // Browser does not support CSS3, using left/top properties instead
 			  	if(d == 'y') {
-				  	el.anim({top: pos}, .3, easing);
+				  	el.anim({top: pos}, snapSpeed, easing);
 				} else {
-					el.anim({left: pos}, .3, easing);
+					el.anim({left: pos}, snapSpeed, easing);
 				}
 			  } else {
 			  	(d == 'y') ? style = '0px, '+pos+'px, 0px' : style = pos+'px, 0px, 0px';
-			  	el.anim({translate3d: style}, .3, easing);
+			  	el.anim({translate3d: style}, snapSpeed, easing);
 			  }
 			 
 			  
 			if (typeof callback == 'function') { 
-			callback.call(this, eventData); 
+			callback.call(this, eventData, segment); 
 			}
 
 		}, 
@@ -458,11 +492,11 @@
 			_logEvent('Nearest segment is '+nearestSegment);
 
 			if (typeof callback == 'function') { 
-			callback.call(this, eventData); 
+				callback.call(this, eventData, segment); 
 			}
 
 
-			if(segment == nearestSegment) {
+			if(segment == nearestSegment) { 
 
 				if(eventData.end.flick[d]) {
 					return el.trigger("onFlick");
@@ -470,7 +504,13 @@
 				
 			}
 
-			el.flickable('segment', nearestSegment);
+			if(nearestSegment == (segment+1)) {
+				el.trigger('onScrollNext');
+			} else if(nearestSegment == (segment-1)) {
+				el.trigger('onScrollPrev');
+			} else {
+				el.flickable('segment', nearestSegment);
+			}
 			
 		}
 		
@@ -571,9 +611,9 @@
 			flickY		= 0;
 
 			if((speedX > flickThreshold)) {
-				flickX = dirX;
+				(Math.abs(eventData.delta.dist.x) >= minTravelDistance) ? flickX = dirX : flickX = 0;
 			} else if((speedY > flickThreshold)) {
-				flickY = dirY; 
+				(Math.abs(eventData.delta.dist.y) >= minTravelDistance) ? flickY = dirY : flickY = 0;
 			}
 
 		eventData.end.duration	= duration;
@@ -669,20 +709,20 @@
 				eventLog += eventData.eventLog[i]+' | ';
 			}
 
-		var text = '<pre>';
-			text = text+'last 3 events: '+eventLog+'<br />';
-			text = text+'start: {x:'+eventData.start.x+', y:'+eventData.start.y+',time: '+eventData.start.time+'}<br />';
-			text = text+'delta: {<br />';
-			text = text+'	prevPos: {'+eventData.delta.prevPos.x+', '+eventData.delta.prevPos.y+'}<br />';
-			text = text+'	dist: {'+eventData.delta.dist.x+', '+eventData.delta.dist.y+'}<br />';
-			text = text+'	dir: {'+eventData.delta.dir.x+', '+eventData.delta.dir.y+'}<br />';
-			text = text+'}<br />';
-			text = text+'	end: {<br />';
-			text = text+'	speed: {'+eventData.end.speed.x+', '+eventData.end.speed.y+'}<br />';
-			text = text+'	flick: {'+eventData.end.flick.x+', '+eventData.end.flick.y+'}<br />';
-			text = text+'	duration: '+eventData.end.duration+'<br />';
-			text = text+'}';
-			text = text+'</pre>';
+		var text = '<pre> \
+		last 3 events: '+eventLog+'<br /> \
+		start: {x:'+eventData.start.x+', y:'+eventData.start.y+',time: '+eventData.start.time+'}<br /> \
+			delta: {<br /> \
+			prevPos: {'+eventData.delta.prevPos.x+', '+eventData.delta.prevPos.y+'}<br /> \
+			dist: {'+eventData.delta.dist.x+', '+eventData.delta.dist.y+'}<br /> \
+			dir: {'+eventData.delta.dir.x+', '+eventData.delta.dir.y+'}<br /> \
+			}<br /> \
+		end: {<br /> \
+			speed: {'+eventData.end.speed.x+', '+eventData.end.speed.y+'}<br /> \
+			flick: {'+eventData.end.flick.x+', '+eventData.end.flick.y+'}<br /> \
+			duration: '+eventData.end.duration+'<br /> \
+		} \
+		</pre>';
 			
 		$('#flickableDebugger').html(text);
 
