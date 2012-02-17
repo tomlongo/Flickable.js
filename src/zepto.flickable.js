@@ -5,7 +5,7 @@
  * Licensed under the Whatever License. Use it for whatever you want!
  * 
  * @author thetomlongo@gmail.com
- * @version 1.0.2
+ * @version 1.0.3
  * 
  * @requires 
  * Zepto JavaScript Library
@@ -271,7 +271,13 @@
 				(d == 'y') ? style = '(0,'+pos+'px,0)' : style = '('+pos+'px,0,0)';
 			
 				// Zepto does not currently support setting translate3d via .css() so we have to do it manually
-				document.getElementById(el.attr('id')).style.webkitTransform = 'translate3d'+style; 
+				if(typeof document.getElementById(el.attr('id')).style.webkitTransform != 'undefined') {
+					document.getElementById(el.attr('id')).style.webkitTransform
+				} else if (typeof document.getElementById(el.attr('id')).style.mozTransform != 'undefined') {
+					document.getElementById(el.attr('id')).style.mozTransform = 'translate3d'+style; 
+				} else {
+					document.getElementById(el.attr('id')).style.transform = 'translate3d'+style; 
+				}
 			
 			}
 		
