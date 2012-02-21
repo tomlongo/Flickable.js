@@ -5,7 +5,7 @@
  * Licensed under the Whatever License. Use it for whatever you want!
  * 
  * @author thetomlongo@gmail.com
- * @version 1.0.3
+ * @version 1.0.4
  * 
  * @requires 
  * Zepto JavaScript Library
@@ -272,7 +272,7 @@
 			
 				// Zepto does not currently support setting translate3d via .css() so we have to do it manually
 				if(typeof document.getElementById(el.attr('id')).style.webkitTransform != 'undefined') {
-					document.getElementById(el.attr('id')).style.webkitTransform
+					document.getElementById(el.attr('id')).style.webkitTransform = 'translate3d'+style; 
 				} else if (typeof document.getElementById(el.attr('id')).style.mozTransform != 'undefined') {
 					document.getElementById(el.attr('id')).style.mozTransform = 'translate3d'+style; 
 				} else {

@@ -7,6 +7,11 @@ Primary target platforms are:
 * iOS 5+
 * Android 2.2+
 
+# v1.0.4 -- Fixed bug introduced with 1.0.3
+
+Oops, somehow I managed to break the touch movement with 1.0.3 without noticing. Sorry about that -- I've fixed it with 1.0.4!
+
+Big thanks to [Hay](https://github.com/hay) for bringing this to my attention :)
 
 # Detailed Info and Pretty Diagrams
 
