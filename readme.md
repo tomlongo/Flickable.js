@@ -7,18 +7,18 @@ Primary target platforms are:
 * iOS 5+
 * Android 2.2+
 
-# v1.0.4 -- Fixed bug introduced with 1.0.3
+## v1.0.4 -- Fixed bug introduced with 1.0.3
 
 Oops, somehow I managed to break the touch movement with 1.0.3 without noticing. Sorry about that -- I've fixed it with 1.0.4!
 
 Big thanks to [Hay](https://github.com/hay) for bringing this to my attention :)
 
-# Detailed Info and Pretty Diagrams
+## Detailed Info and Pretty Diagrams
 
 I've written a post with a lot of info here: 
 http://labs.kojo.com.au/flickable-zepto-plugin/
 
-# Demos
+## Demos
 
 BYO touchscreen. 
 
@@ -27,7 +27,7 @@ BYO touchscreen.
 * [Vertical Jigsaw](http://labs.kojo.com.au/demos/flickable/demo3.html): Swipe up or down on the three segments to match up the images.
 
 
-# Installation
+## Installation
 
 Make sure you load flickable after Zepto
 
@@ -37,7 +37,7 @@ Make sure you load flickable after Zepto
 ```
 
 
-# Usage
+## Usage
 
 To use it, simply target the element you want to be Flickable, and apply the plugin to it. At minimum you should provide the number of segments Flickable will slice the element. 
 
@@ -60,11 +60,11 @@ $('#flickable-element').flickable({segments:3});
 ```
 
 
-# Documentation
+## Documentation
 
-## Event Callbacks
+### Event Callbacks
 
-### onCreate
+#### onCreate
 
 Triggered when Flickable object is created.
 
@@ -72,7 +72,7 @@ Triggered when Flickable object is created.
 $('#thing').flickable({onCreate: function(flickableObjects) { /* do stuff */ } });
 ```
 
-### onStart
+#### onStart
 
 Triggered when a touch event begins.
 
@@ -80,7 +80,7 @@ Triggered when a touch event begins.
 $('#thing').flickable({onStart: function(eventData) { /* do stuff */ } });
 ```
 
-### onMove
+#### onMove
 
 Triggered when the element is moved via a gesture in any direction.
 
@@ -88,7 +88,7 @@ Triggered when the element is moved via a gesture in any direction.
 $('#thing').flickable({onMove: function(eventData) { /* do stuff */ } });
 ```
 
-### onScroll
+#### onScroll
 
 Triggered when element snaps to the nearest segment in any direction.
 
@@ -96,7 +96,7 @@ Triggered when element snaps to the nearest segment in any direction.
 $('#thing').flickable({onScroll: function(eventData, segment) { /* do stuff */ } });
 ```
 
-### onScrollPrev
+#### onScrollPrev
 
 Triggered when element snaps to the previous segment.
 
@@ -104,7 +104,7 @@ Triggered when element snaps to the previous segment.
 $('#thing').flickable({onScrollPrev: function(eventData, segment) { /* do stuff */ } });
 ```
 
-### onScrollNext
+#### onScrollNext
 
 Triggered when element snaps to the next segment.
 
@@ -112,7 +112,7 @@ Triggered when element snaps to the next segment.
 $('#thing').flickable({onScrollNext: function(eventData, segment) { /* do stuff */ } });
 ```
 
-### onFlick
+#### onFlick
 
 Triggered when element user flicks in a valid direction.
 
@@ -120,7 +120,7 @@ Triggered when element user flicks in a valid direction.
 $('#thing').flickable({onFlick: function(eventData, segment) { /* do stuff */ } });
 ```
 
-### onFlickLeft
+#### onFlickLeft
 
 Triggered when element user flicks from right to left.
 
@@ -128,7 +128,7 @@ Triggered when element user flicks from right to left.
 $('#thing').flickable({onFlickLeft: function(eventData, segment) { /* do stuff */ } });
 ```
 
-### onFlickRight
+#### onFlickRight
 
 Triggered when element user flicks from left to right.
 
@@ -136,7 +136,7 @@ Triggered when element user flicks from left to right.
 $('#thing').flickable({onFlickRight: function(eventData, segment) { /* do stuff */ } });
 ```
 
-### onFlickUp
+#### onFlickUp
 
 Triggered when element user flicks from bottom to top.
 
@@ -144,7 +144,7 @@ Triggered when element user flicks from bottom to top.
 $('#thing').flickable({onFlickUp: function(eventData, segment) { /* do stuff */ } });
 ```
 
-### onFlickDown
+#### onFlickDown
 
 Triggered when element user flicks from up to down.
 
@@ -152,7 +152,7 @@ Triggered when element user flicks from up to down.
 $('#thing').flickable({onFlickDown: function(eventData, segment) { /* do stuff */ } });
 ```
 
-### onEnd
+#### onEnd
 
 Triggered when the user lifts their finger off the screen, ending the touch event.
 
@@ -160,7 +160,7 @@ Triggered when the user lifts their finger off the screen, ending the touch even
 $('#thing').flickable({onEnd: function(eventData, segment) { /* do stuff */ } });
 ```
 
-## Event Data Object
+### Event Data Object
 
 Most events also include the event data object, which is structured like so:
 
@@ -200,9 +200,9 @@ eventData = {
 }
 ```
 
-## Options
+### Options
 
-### segments
+#### segments
 
 Type: Number; Default: 5
 
@@ -212,7 +212,7 @@ Number of segments in which to divide the target element.
 $('#thing').flickable({segments: 3});
 ```
 
-### flickThreshold
+#### flickThreshold
 
 Type: Float; Default: 0.7
 
@@ -224,7 +224,7 @@ If you're targeting Android, you may need to lower this to make it more sensitiv
 $('#thing').flickable({flickThreshold: 0.5});
 ```
 
-### flickDirection
+#### flickDirection
 
 Type: 'x' or 'y'; Default: 'auto'
 
@@ -238,7 +238,7 @@ $('#thing').flickable({flickDirection: 'x'});
 
 
 
-### snapSpeed
+#### snapSpeed
 
 Type: Float; Default: 0.3
 
@@ -248,7 +248,7 @@ Speed in which the element will snap to the nearest segment when released (note 
 $('#thing').flickable({snapSpeed: 1});
 ```
 
-### flickSnapSpeed
+#### flickSnapSpeed
 
 Type: Float; Default: 0.3
 
@@ -259,7 +259,7 @@ $('#thing').flickable({flickSnapSpeed: 1});
 ```
 
 
-### preventDefault
+#### preventDefault
 
 Type: Boolean; Default: true
 
@@ -269,9 +269,9 @@ Whether or not to cancel default actions on the target element. Note that if thi
 $('#thing').flickable({preventDefault: false});
 ```
 
-## Methods
+### Methods
 
-### segment
+#### segment
 
 Gets or sets the current segment. Note segments start at 0.
 
@@ -280,7 +280,7 @@ $('#thing').flickable('segment'); // gets current segment
 $('#thing').flickable('segment', 5); // sets segment to 5
 ```
 
-### scrollNext
+#### scrollNext
 
 Scroll to next segment.
 
@@ -288,7 +288,7 @@ Scroll to next segment.
 $('#thing').flickable('scrollNext');
 ```
 
-### scrollPrev
+#### scrollPrev
 
 Scroll to previous segment.
 
