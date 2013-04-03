@@ -54,6 +54,7 @@
 		  segmentPx		: 'auto',
 		  flickDirection: 'auto',
 		  preventDefault: true,
+		  preventDefaultAxis: 'both',
 		  onCreate		: false, 
 		  onFlick		: false,  
 		  onFlickLeft	: false,  
@@ -85,7 +86,8 @@
 						  .data('segment', 0)
 						  .data('segments', segments)
 						  .data('flickDirection', flickDirection)
-						  .data('segmentPx', _getSegmentPx(el, settings.segmentPx));
+						  .data('segmentPx', _getSegmentPx(el, settings.segmentPx))
+						  .data('preventDefaultAxis', settings.preventDefaultAxis);
 
 						$(el).bind({
 						
@@ -138,13 +140,13 @@
 								$(this).trigger("onStart");
 							},
 							
-							touchmove: function(e) {
-							
-								if(settings.preventDefault) {
-									e.preventDefault();
-								}
-								
+							touchmove: function(e) {								
 								_updateDelta(e);
+
+								if (settings.preventDefault) {
+									_handlePreventDefault.call(this, e);
+								}
+
 								$(this).trigger("onMove");
 							},
 							
@@ -593,8 +595,6 @@
 			} else {
 				dirY = 0;
 			}
-
-		
 		
 		eventData.delta.prevPos	= {x:prevX,  y:prevY};
 		eventData.delta.dist 	= {x:distX,  y:distY};
@@ -604,7 +604,18 @@
 
 	}
 	
-	
+	function _handlePreventDefault(e) {
+		var el = $(this),
+			preventDefaultAxis = el.data('preventDefaultAxis'),
+			restrictXAxis = preventDefaultAxis === 'both' || preventDefaultAxis === 'x',
+			restrictYAxis = preventDefaultAxis === 'both' || preventDefaultAxis === 'y',
+			preventXScroll = restrictXAxis && Math.abs(eventData.delta.dist.y) >= minTravelDistance,
+			preventYScroll = restrictYAxis && Math.abs(eventData.delta.dist.x) >= minTravelDistance;
+
+		if ( preventXScroll || preventYScroll ) {
+			e.preventDefault();
+		}
+	}
 	
 	function _endTouch(e) {
 

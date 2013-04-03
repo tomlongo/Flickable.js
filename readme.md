@@ -269,6 +269,16 @@ Whether or not to cancel default actions on the target element. Note that if thi
 $('#thing').flickable({preventDefault: false});
 ```
 
+#### preventDefaultAxis
+
+Type: 'both' or 'x' or 'y'; Default: 'both'
+
+On which axis you want to prevent default actions. For example if set to restrict the y axis, scrolling will only work as long as the flick is vertical. If the flick is recognized as a horizontal movement the scrolling will be blocked.
+
+``` js
+$('#thing').flickable({preventDefaultAxis: 'y'});
+```
+
 ### Methods
 
 #### segment
